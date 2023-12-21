@@ -8,4 +8,4 @@ document.addEventListener("click",()=>{
     chats?.insertAdjacentElement("beforeend",uE);
     
     console.log("chalja bhai plz");
-})
+},{once:true})

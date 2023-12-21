@@ -1,6 +1,6 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.action.setBadgeText({
-      text: 'OFF'
+      text: 'ON'
     });
   });
 
@@ -10,6 +10,11 @@ const extension = "https://web.whatsapp.com/";
 function revertBlur() {
     uE = document.getElementsByClassName("upperElement")[0];
     uE.style.backdropFilter = "revert";
+}
+
+function assertBlur() {
+  uE = document.getElementsByClassName("upperElement")[0];
+  uE.style.backdropFilter = "blur(12px)";
 }
 
 
@@ -29,22 +34,22 @@ if (tab.url.startsWith(extension)) {
 
     if (nextState === 'ON') {
 
-        chrome.scripting.executeScript({
-          target : {tabId : tab.id},
-          files : [ "scripts/content.js" ],
-        })
-        .then(() => console.log("script injected"));
+      chrome.scripting.executeScript({
+        target : {tabId : tab.id},
+        func : assertBlur,
+      })
+      // .then(() => console.log("script injected"));
     
     
     
-      } else if (nextState === 'OFF') {
+    } else if (nextState === 'OFF') {
     
-        chrome.scripting.executeScript({
-          target : {tabId : tab.id},
-          func : revertBlur,
-        })
-        .then(() => console.log("script injected revert done"));
-      }
+      chrome.scripting.executeScript({
+        target : {tabId : tab.id},
+        func : revertBlur,
+      })
+        // .then(() => console.log("script injected revert done"));
+    }
 
 }
 })
